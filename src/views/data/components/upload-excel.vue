@@ -2,7 +2,7 @@
   <div class="app-container">
     <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
     <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
-      <el-table-column v-for="(item, index) of tableHeader" :key="index" :prop="item" :label="item" />
+      <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
     </el-table>
   </div>
 </template>
@@ -21,14 +21,14 @@ export default {
   },
   methods: {
     beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1
-
+      const isLt1M = file.size / 1024 / 1024 < 10
+      console.log(file.size, isLt1M)
       if (isLt1M) {
         return true
       }
 
       this.$message({
-        message: 'Please do not upload files larger than 1m in size.',
+        message: 'Please do not upload files larger than 10m in size.',
         type: 'warning'
       })
       return false

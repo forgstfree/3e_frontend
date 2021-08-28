@@ -80,14 +80,12 @@ export default {
       }
     },
     readerData(rawFile) {
-      console.log('rawFile')
-      console.log(typeof (rawFile))
-      console.log((rawFile))
       this.loading = true
       return new Promise((resolve, reject) => {
         const reader = new FileReader()
         reader.onload = e => {
           const data = e.target.result
+          debugger
           console.log(data)
           const workbook = XLSX.read(data, { type: 'array' })
           const firstSheetName = workbook.SheetNames[0]
