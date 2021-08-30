@@ -59,8 +59,8 @@ export default {
     fetchHeaderData() {
       // 获取数据列表和列字段
     },
-    fetchSeletion(){
-      
+    fetchSeletion() {
+
     }
   }
 }

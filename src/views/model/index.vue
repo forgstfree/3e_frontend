@@ -49,7 +49,7 @@ export default {
       listLoading: true,
       total: 0,
       triggerNextTimes: '',
-      registerNode: [],
+      registerNode: []
     }
   },
   created() {
@@ -80,7 +80,7 @@ export default {
       if (this.active > 1) {
         this.active--
       }
-    },
+    }
   }
 }
 </script>
