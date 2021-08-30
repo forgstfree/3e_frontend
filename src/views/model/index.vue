@@ -11,7 +11,7 @@
       <el-button :disabled="active===1" style="margin-top: 12px;" @click="last">上一步</el-button>
       <el-button type="primary" style="margin-top: 12px;margin-bottom: 12px;" @click="next">下一步</el-button>
       <div v-show="active===1" class="step1">
-        <Model3E ref="model" />
+        <Model3E ref="model" @change="handleModel" />
       </div>
       <div v-show="active===2" class="step2">
         <Datafields ref="datafields" />
@@ -48,38 +48,8 @@ export default {
       currentRow: null,
       listLoading: true,
       total: 0,
-      listQuery: {
-        current: 1,
-        size: 10,
-        jobGroup: 0,
-        triggerStatus: -1,
-        jobDesc: '',
-        executorHandler: '',
-        userId: 0
-      },
       triggerNextTimes: '',
       registerNode: [],
-      temp: {
-        id: undefined,
-        jobGroup: '',
-        jobCron: '',
-        jobDesc: '',
-        executorRouteStrategy: '',
-        executorBlockStrategy: '',
-        childJobId: '',
-        executorFailRetryCount: '',
-        alarmEmail: '',
-        executorTimeout: '',
-        userId: 0,
-        jobConfigId: '',
-        executorHandler: 'executorJobHandler',
-        glueType: 'BEAN',
-        jobJson: '',
-        executorParam: '',
-        replaceParam: '',
-        jvmParam: '',
-        incStartTime: ''
-      }
     }
   },
   created() {
@@ -111,90 +81,6 @@ export default {
         this.active--
       }
     },
-    // 构建json
-    buildJson() {
-      const readerData = this.$refs.reader.getData()
-      const writeData = this.$refs.writer.getData()
-      console.log(readerData)
-      console.log(writeData)
-      const readerColumns = this.$refs.mapper.getLColumns()
-      const writerColumns = this.$refs.mapper.getRColumns()
-      const hiveReader = {
-        readerPath: readerData.path,
-        readerDefaultFS: readerData.defaultFS,
-        readerFileType: readerData.fileType,
-        readerFieldDelimiter: readerData.fieldDelimiter,
-        readerSkipHeader: readerData.skipHeader
-      }
-      const hiveWriter = {
-        writerDefaultFS: writeData.defaultFS,
-        writerFileType: writeData.fileType,
-        writerPath: writeData.path,
-        writerFileName: writeData.fileName,
-        writeMode: writeData.writeMode,
-        writeFieldDelimiter: writeData.fieldDelimiter
-      }
-      const hbaseReader = {
-        readerMode: readerData.mode,
-        readerMaxVersion: readerData.maxVersion,
-        readerRange: readerData.range
-      }
-      const hbaseWriter = {
-        writerMode: writeData.mode,
-        writerRowkeyColumn: writeData.rowkeyColumn,
-        writerVersionColumn: writeData.versionColumn,
-        writeNullMode: writeData.nullMode
-      }
-      const obj = {
-        readerDatasourceId: readerData.datasourceId,
-        readerTables: [readerData.tableName],
-        readerColumns: readerColumns,
-        writerDatasourceId: writeData.datasourceId,
-        writerTables: [writeData.tableName],
-        writerColumns: writerColumns,
-        hiveReader: hiveReader,
-        hiveWriter: hiveWriter,
-        hbaseReader: hbaseReader,
-        hbaseWriter: hbaseWriter
-      }
-      // 调api
-      //   dataxJsonApi.buildJobJson(obj).then(response => {
-      //     this.configJson = JSON.parse(response)
-      //   })
-    },
-    handleCopy(text, event) {
-      clip(this.configJson, event)
-      this.$message({
-        message: 'copy success',
-        type: 'success'
-      })
-    },
-    handleJobTemplateSelectDrawer() {
-      this.jobTemplateSelectDrawer = !this.jobTemplateSelectDrawer
-      if (this.jobTemplateSelectDrawer) {
-        this.fetchData()
-        this.getExecutor()
-      }
-    },
-    getReaderData() {
-      return this.$refs.reader.getData()
-    },
-    fetchData() {
-      this.listLoading = true
-      //   jobTemplate.getList(this.listQuery).then(response => {
-      //     const { content } = response
-      //     this.total = content.recordsTotal
-      //     this.list = content.data
-      //     this.listLoading = false
-      //   })
-    },
-    handleCurrentChange(val) {
-      this.temp = Object.assign({}, val)
-      this.temp.id = undefined
-      this.temp.jobDesc = this.getReaderData().tableName
-      this.$refs.jobTemplateSelectDrawer.closeDrawer()
-      this.jobTemplate = val.id + '(' + val.jobDesc + ')'
-    }
   }
 }
 </script>
