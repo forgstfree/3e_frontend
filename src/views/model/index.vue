@@ -56,6 +56,9 @@ export default {
     // this.getJdbcDs()
   },
   methods: {
+    handleModel() {
+
+    },
     next() {
       //   const fromColumnList = this.$refs.reader.getData().columns
       //   const toColumnsList = this.$refs.writer.getData().columns

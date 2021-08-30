@@ -164,7 +164,21 @@ export const constantRoutes = [
   {
     path: '/model',
     component: Layout,
+    redirect: '/model/list',
+    meta: { title: '模型管理', icon: 'edit' },
     children: [
+      {
+        path: 'create',
+        component: () => import('@/views/model/create'),
+        name: 'Create',
+        meta: { title: '模型创建', icon: 'listview', affix: true }
+      },
+      {
+        path: 'list',
+        component: () => import('@/views/model/list'),
+        name: 'List',
+        meta: { title: '模型列表', icon: 'listview', affix: true }
+      },
       {
         path: 'index',
         component: () => import('@/views/model/index'),
