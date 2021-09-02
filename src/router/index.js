@@ -157,7 +157,7 @@ export const constantRoutes = [
         path: 'upload',
         component: () => import('@/views/data/upload'),
         name: 'Upload',
-        meta: { title: '数据上传', icon: 'warehouse', affix: true }
+        meta: { title: '数据上传', icon: 'el-icon-upload', affix: true }
       }
     ]
   },
@@ -171,22 +171,23 @@ export const constantRoutes = [
         path: 'create',
         component: () => import('@/views/model/create'),
         name: 'Create',
-        meta: { title: '模型创建', icon: 'listview', affix: true }
+        meta: { title: '模型创建', icon: 'el-icon-s-data', affix: true }
       },
       {
         path: 'list',
         component: () => import('@/views/model/list'),
-        name: 'List',
-        meta: { title: '模型列表', icon: 'listview', affix: true }
+        name: 'MList',
+        meta: { title: '模型列表', icon: 'list', affix: true }
       },
       {
         path: 'index',
         component: () => import('@/views/model/index'),
         name: 'Model',
-        meta: { title: '数据分析', icon: 'listview', affix: true }
+        meta: { title: '数据分析', icon: 'fenxi', affix: true }
       },
       {
         path: 'gafhjwaf',
+        hidden: true,
         component: () => import('@/views/model/test'),
         name: 'Gafhjwaf',
         meta: { title: '测试', icon: 'warehouse', affix: true }
@@ -385,6 +386,7 @@ export const asyncRoutes = [
 
   {
     path: '/excel',
+    hidden: true,
     component: Layout,
     redirect: '/excel/export-excel',
     name: 'Excel',

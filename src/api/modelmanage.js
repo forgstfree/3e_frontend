@@ -17,3 +17,20 @@ export function fetchList(query) {
     params: query
   })
 }
+export function deleteModel(data) {
+  return request({
+    baseURL: process.env.VUE_APP_BASE_URL,
+    url: '/model/delete/',
+    method: 'post',
+    data
+  })
+}
+
+export function analysis(data) {
+  return request({
+    baseURL: process.env.VUE_APP_BASE_URL,
+    url: '/model/analysis/',
+    method: 'post',
+    data
+  })
+}

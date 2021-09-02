@@ -8,6 +8,14 @@ export function fetchList(query) {
     params: query
   })
 }
+export function fetchHeader(query) {
+  return request({
+    baseURL: process.env.VUE_APP_BASE_URL,
+    url: '/file/headerlist/',
+    method: 'get',
+    params: query
+  })
+}
 
 export function updateFile(data) {
   return request({

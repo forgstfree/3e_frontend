@@ -8,84 +8,135 @@
         <el-step title="步骤 4" description="分析">4</el-step>
       </el-steps>
 
-      <el-button :disabled="active===1" style="margin-top: 12px;" @click="last">上一步</el-button>
-      <el-button type="primary" style="margin-top: 12px;margin-bottom: 12px;" @click="next">下一步</el-button>
-      <div v-show="active===1" class="step1">
-        <Model3E ref="model" @change="handleModel" />
+      <el-button :disabled="active === 1" style="margin-top: 12px" @click="last"
+        >上一步</el-button
+      >
+      <el-button
+        :disabled="active === 4"
+        type="primary"
+        style="margin-top: 12px; margin-bottom: 12px"
+        @click="next"
+        >下一步</el-button
+      >
+      <div ref="modelContainer" class="modelContainer">
+        <div v-show="active === 1" class="step1">
+          <Model3E ref="model" @change="handleModel" />
+        </div>
+        <div v-show="active === 2" class="step2">
+          <Datafields ref="datafields" />
+        </div>
+        <div v-show="active === 3" class="step3">
+          <Mapper ref="mapper" :modelList="selectedModel" :dataList="selectedData" />
+        </div>
+        <div v-show="active === 4" class="step4">
+          <ShowResult ref="showresult" :height="height" :width="width" />
+        </div>
       </div>
-      <div v-show="active===2" class="step2">
-        <Datafields ref="datafields" />
-      </div>
-      <div v-show="active===3" class="step3">
-        <Mapper ref="mapper" />
-      </div>
-      <div v-show="active===4" class="step4">
-        <ShowResult ref="showresult" />
-        <!-- <el-button type="primary" @click="buildJson">分析</el-button> -->
-        <!-- <el-button type="primary" @click="handleJobTemplateSelectDrawer">{{ jobTemplate ? jobTemplate : "2.选择模板" }}</el-button> -->
-        <!-- <el-button type="info" @click="handleCopy(inputData,$event)">复制json</el-button> -->
-        <!-- (步骤：构建->选择模板->下一步) -->
-      </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import clip from '@/utils/clipboard'
-import Model3E from './components/model'
-import Datafields from './components/datafields'
-import Mapper from './components/mapper'
-import ShowResult from './components/showresult'
+import clip from "@/utils/clipboard";
+import Model3E from "./components/model";
+import Datafields from "./components/datafields";
+import Mapper from "./components/mapper";
+import ShowResult from "./components/showresult";
 
 export default {
-  name: 'JsonBuild',
+  name: "ModelAnalysis",
   components: { Model3E, Datafields, Mapper, ShowResult },
   data() {
     return {
+      height: "400px",
+      width: "800px",
       active: 1,
       list: null,
       currentRow: null,
       listLoading: true,
       total: 0,
-      triggerNextTimes: '',
-      registerNode: []
-    }
+      triggerNextTimes: "",
+      selectedModel: {
+        pk: "",
+        variable: [],
+      },
+      selectedData: [],
+      selectedDataAndModel: {},
+    };
   },
-  created() {
-    // this.getJdbcDs()
+  watch: {
+    selectedDataAndModel(newVal, oldVal) {
+      console.log(newVal, "selectedDataAndModel Change!", oldVal);
+    },
+  },
+  created() {},
+  mounted() {
+    this.width = Math.ceil(this.$refs.modelContainer.offsetWidth / 2) + "px";
+    console.log(this.width);
   },
   methods: {
-    handleModel() {
-
-    },
+    handleModel() {},
     next() {
       //   const fromColumnList = this.$refs.reader.getData().columns
       //   const toColumnsList = this.$refs.writer.getData().columns
       // const fromTableName = this.$refs.reader.getData().tableName
-      // 第一步 reader 判断是否已选字段
       if (this.active === 1) {
-        // 实现第一步骤读取的表和字段直接带到第二步骤
-        // this.$refs.writer.sendTableNameAndColumns(fromTableName, fromColumnList)
-        // 取子组件的数据
-        // console.info(this.$refs.reader.getData())
-        this.active++
+        const modeltmp = this.$refs.model.tmp;
+        if (modeltmp.pk === "") {
+          this.$message({
+            showClose: true,
+            message: "请先选择模型",
+            type: "error",
+          });
+        } else {
+          this.selectedModel = {
+            pk: modeltmp.pk,
+            coefficient: modeltmp.coefficient,
+            variable: modeltmp.variable.map((v) => {
+              var obj = {};
+              obj["key"] = v;
+              obj["val"] = null;
+              return obj;
+            }),
+          };
+          this.active++;
+        }
       } else {
         if (this.active === 2) {
+          this.$refs.datafields.fetchSeletion();
+          const datatmp = this.$refs.datafields.selectedData;
+          this.selectedData = [];
+          Object.keys(datatmp).forEach((k) => {
+            this.selectedData.push(datatmp[k]);
+          });
         }
         if (this.active === 4) {
         } else {
-          this.active++
+          if (this.selectedData.length === 0) {
+            this.$message({
+              showClose: true,
+              message: "请先选择您需要使用的数据文件，勾选表示选中。",
+              type: "error",
+            });
+          } else {
+            if (this.active === 3) {
+              // 进行分析
+              this.$refs.mapper.fetchMapper();
+              this.selectedDataAndModel = this.$refs.mapper.dataAndModel;
+              this.$refs.showresult.run(this.selectedDataAndModel);
+            }
+            this.active++;
+          }
         }
       }
     },
     last() {
       if (this.active > 1) {
-        this.active--
+        this.active--;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
