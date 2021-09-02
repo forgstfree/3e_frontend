@@ -3,7 +3,7 @@
     <el-table-column prop="key" align="center" label="变量" width="180" />
     <el-table-column label="字段" min-width="2">
       <template slot-scope="scope">
-        <el-cascader style="width:80%" v-model="scope.row.val" :options="dataList" filterable />
+        <el-cascader v-model="scope.row.val" style="width:80%" :options="dataList" filterable />
       </template>
     </el-table-column>
   </el-table>
@@ -16,26 +16,26 @@ export default {
       type: Object,
       default: () => {
         return {
-          variable: [],
+          variable: []
         }
-      },
+      }
     },
     dataList: {
       type: Array,
       default: () => {
         return []
-      },
-    },
+      }
+    }
   },
   data() {
     return {
-        dataAndModel: {}
+      dataAndModel: {}
     }
   },
   methods: {
-      fetchMapper(){
-        this.dataAndModel = this.modelList
-      }
-  },
+    fetchMapper() {
+      this.dataAndModel = this.modelList
+    }
+  }
 }
 </script>

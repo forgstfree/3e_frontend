@@ -7,12 +7,11 @@
       <el-col :span="20">
         <div class="">
           <el-input
+            v-model="nameFormula"
             type="textarea"
             :autosize="{ minRows: 1, maxRows: 2 }"
             placeholder="请输入内容"
-            v-model="nameFormula"
-          >
-          </el-input>
+          />
         </div>
       </el-col>
     </el-row>
@@ -23,12 +22,11 @@
       <el-col :span="20">
         <div class="">
           <el-input
+            v-model="formula"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4 }"
             placeholder="请输入内容，支持Latax语法。以$$开始，以$$结束。"
-            v-model="formula"
-          >
-          </el-input>
+          />
         </div>
       </el-col>
     </el-row>
@@ -38,7 +36,7 @@
       </el-col>
       <el-col :span="20">
         <div class="">
-          <vue-mathjax :formula="formula"></vue-mathjax>
+          <vue-mathjax :formula="formula" />
         </div>
       </el-col>
     </el-row>
@@ -49,12 +47,11 @@
       <el-col :span="20">
         <div class="">
           <el-input
+            v-model="desc"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4 }"
             placeholder="请输入内容"
-            v-model="desc"
-          >
-          </el-input>
+          />
         </div>
       </el-col>
     </el-row>
@@ -65,12 +62,11 @@
       <el-col :span="20">
         <div class="">
           <el-input
+            v-model="remake"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4 }"
             placeholder="请输入内容"
-            v-model="remake"
-          >
-          </el-input>
+          />
         </div>
       </el-col>
     </el-row>
@@ -79,7 +75,7 @@
         <div>系数区</div>
         <div>
           <el-table :data="coefficientData" style="width: 100%">
-            <el-table-column prop="key" label="名称" width="180"> </el-table-column>
+            <el-table-column prop="key" label="名称" width="180" />
             <el-table-column prop="value" label="预定义值">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
@@ -127,7 +123,7 @@
                   size="mini"
                   type="danger"
                   @click="handleDelete(scope.$index)"
-                  >删除
+                >删除
                 </el-button>
               </template>
             </el-table-column>
@@ -139,8 +135,8 @@
         <div style="margin-bottom: 20px">变量区</div>
         <div>
           <el-tag
-            :key="tag"
             v-for="tag in dynamicTags"
+            :key="tag"
             closable
             :disable-transitions="false"
             @close="handleClose(tag)"
@@ -148,22 +144,20 @@
             {{ tag }}
           </el-tag>
           <el-input
-            class="input-new-tag"
             v-if="inputVisible"
-            v-model="inputValue"
             ref="saveTagInput"
+            v-model="inputValue"
+            class="input-new-tag"
             size="small"
             @keyup.enter.native="handleInputConfirm"
             @blur="handleInputConfirm"
-          >
-          </el-input>
+          />
           <el-button
             v-else
             class="button-new-tag"
             size="small"
             @click="showInput"
-            >+ 新变量</el-button
-          >
+          >+ 新变量</el-button>
         </div>
         <div
           style="position: absolute; top: 30%; left: 50%; margin: 5% 0 0 35%"
@@ -180,7 +174,7 @@
           @click="dialogVisible = true" >新增</el-button >
     </el-row> -->
     <el-row>
-      <el-col :span="6" :offset="20"> </el-col>
+      <el-col :span="6" :offset="20" />
     </el-row>
     <div>
       <el-dialog
@@ -199,7 +193,7 @@
                 <el-input
                   v-model="coefficient.key"
                   placeholder="请输入参数名称"
-                ></el-input>
+                />
               </div>
             </el-col>
           </el-row>
@@ -212,7 +206,7 @@
                 <el-input
                   v-model="coefficient.value"
                   placeholder="请输入参数预定义值"
-                ></el-input>
+                />
               </div>
             </el-col>
           </el-row>
@@ -230,10 +224,10 @@
 import { VueMathjax } from 'vue-mathjax'
 import { createModel } from '@/api/modelmanage'
 export default {
-  components: {
-    'vue-mathjax': VueMathjax,
-  },
   name: 'HelloWorld',
+  components: {
+    'vue-mathjax': VueMathjax
+  },
   data() {
     return {
       nameFormula: '',
@@ -250,8 +244,8 @@ export default {
         originValue: '',
         key: '',
         value: '',
-        edit: false,
-      },
+        edit: false
+      }
     }
   },
   methods: {
@@ -266,7 +260,7 @@ export default {
         originValue: '',
         key: '',
         value: '',
-        edit: false,
+        edit: false
       }
     },
     handleClose(done) {
@@ -285,14 +279,14 @@ export default {
         desc: this.desc,
         remake: this.remake,
         coefficient: JSON.stringify(this.coefficientData),
-        variable: this.dynamicTags.toString() || '[]',
+        variable: this.dynamicTags.toString() || '[]'
       }
       //   console.log(tmp)
       createModel(tmp).then((response) => {
         // console.log(response)
         this.$message({
           message: '数学模型创建成功',
-          type: 'success',
+          type: 'success'
         })
       })
     },
@@ -316,7 +310,7 @@ export default {
     },
 
     handleInputConfirm() {
-      let inputValue = this.inputValue
+      const inputValue = this.inputValue
       if (inputValue) {
         this.dynamicTags.push(inputValue)
       }
@@ -328,25 +322,25 @@ export default {
       row.edit = false
       this.$message({
         message: 'The coefficient has been restored to the original value',
-        type: 'warning',
+        type: 'warning'
       })
     },
-    confirmEdit(row,origin,name) {
+    confirmEdit(row, origin, name) {
       row.edit = false
-      row.originValue = row.value 
+      row.originValue = row.value
       this.$message({
         message: 'The value has been edited',
-        type: 'success',
+        type: 'success'
       })
     },
     handleDelete(index) {
       this.coefficientData.splice(index, 1)
       this.$message({
         message: '系数已经成功删除',
-        type: 'success',
+        type: 'success'
       })
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -21,7 +21,7 @@
       </el-table-column>
       <el-table-column label="公式" min-width="2" align="center">
         <template slot-scope="scope">
-          <vue-mathjax :formula="scope.row.fields.expression"></vue-mathjax>
+          <vue-mathjax :formula="scope.row.fields.expression" />
           <!-- <el-tag>{{ scope.row.fields.expression}}</el-tag> -->
         </template>
       </el-table-column>
@@ -41,7 +41,7 @@
             size="mini"
             type="danger"
             @click="handleDelete(scope.row, scope.$index)"
-            >删除
+          >删除
           </el-button>
         </template>
       </el-table-column>
@@ -50,78 +50,78 @@
 </template>
 
 <script>
-import { fetchList, deleteModel } from "@/api/modelmanage";
-import { VueMathjax } from "vue-mathjax";
+import { fetchList, deleteModel } from '@/api/modelmanage'
+import { VueMathjax } from 'vue-mathjax'
 // options components
 export default {
-  name: "ListModel",
+  name: 'ListModel',
   components: {
-    "vue-mathjax": VueMathjax,
+    'vue-mathjax': VueMathjax
   },
   data() {
     return {
       list: null,
       listLoading: true,
       downloadLoading: false,
-      filename: "",
+      filename: '',
       autoWidth: true,
-      bookType: "xlsx",
+      bookType: 'xlsx',
       multipleSelection: [],
       dialogVisible: false,
-      loading: true,
-    };
+      loading: true
+    }
   },
   created() {
-    this.fetchData();
+    this.fetchData()
   },
   methods: {
     fetchData() {
-      this.listLoading = true;
+      this.listLoading = true
       fetchList().then((response) => {
-        const items = response.list;
-        this.list = items;
+        const items = response.list
+        this.list = items
         // this.list = items.map((v) => {
         //   this.$set(v, 'edit', false) // https://vuejs.org/v2/guide/reactivity.html
         //   v.fields.originalfilename = v.fields.filename //  will be used when user click the cancel botton
         //   return v
         // })
-        this.listLoading = false;
-      });
+        this.listLoading = false
+      })
     },
 
     cancelEdit(row) {
-      row.fields.filename = row.fields.originalfilename;
-      row.edit = false;
+      row.fields.filename = row.fields.originalfilename
+      row.edit = false
       this.$message({
-        message: "The title has been restored to the original value",
-        type: "warning",
-      });
+        message: 'The title has been restored to the original value',
+        type: 'warning'
+      })
     },
     confirmEdit(row) {
-      row.edit = false;
-      row.fields.originalfilename = row.fields.filename;
+      row.edit = false
+      row.fields.originalfilename = row.fields.filename
       const tmp = {
         pk: row.pk,
-        filename: row.fields.filename,
-      };
+        filename: row.fields.filename
+      }
       updateFile(tmp).then((response) => {
         this.$message({
-          message: "The title has been edited",
-          type: "success",
-        });
-      });
+          message: 'The title has been edited',
+          type: 'success'
+        })
+      })
     },
     handleDelete(row, index) {
       deleteModel(row).then((response) => {
-        this.list.splice(index, 1);
+        this.list.splice(index, 1)
         this.$message({
-          message: "模型已经成功删除",
-          type: "success",
-        });
-      });
-    },
-  },
-};
+          message: '模型已经成功删除',
+          type: 'success'
+        })
+      })
+    }
+  }
+}
 </script>
 
 <style>

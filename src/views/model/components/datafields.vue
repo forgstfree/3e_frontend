@@ -21,7 +21,7 @@
           >
             {{ tag }}
           </el-tag>
-          <div></div>
+          <div />
         </template>
       </el-table-column>
     </el-table>
@@ -33,64 +33,63 @@
 </template>
 
 <script>
-import { fetchHeader } from "@/api/datamanage";
+import { fetchHeader } from '@/api/datamanage'
 export default {
   data() {
     return {
       listData: [],
       multipleSelection: [],
       selectedData: {}
-    };
+    }
   },
   mounted() {
-    this.fetchHeaderData();
+    this.fetchHeaderData()
   },
   methods: {
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleSelection = val
     },
     fetchHeaderData() {
       fetchHeader().then((response) => {
-        const tmp = response.list;
+        const tmp = response.list
         this.listData = tmp.map((obj) => {
-          obj.fields.headers = obj.fields.header.split("_|_");
-          return obj;
-        });
+          obj.fields.headers = obj.fields.header.split('_|_')
+          return obj
+        })
         // console.log(this.listData)
-      });
+      })
     },
     fetchSeletion() {
       this.selectedData = {}
       for (let i = 0; i < this.multipleSelection.length; i++) {
-          let d = this.multipleSelection[i]
-          let pk = d.fields.filefrom
-          let sheetname = d.fields.sheetname || '_csv_'
-          let columns = d.fields.headers
-          if(this.selectedData[pk] === undefined){
-              this.selectedData[pk] = {}
-            //   字段对应的表的pk, filefrom
-              this.selectedData[pk]['value'] = d.fields.filepath
-              this.selectedData[pk]['label'] = d.fields.filename
-              this.selectedData[pk]['children'] = []
-          }
-          if(this.selectedData[pk])
-          var obj = {}
-          //   字段所在的表的pk
+        const d = this.multipleSelection[i]
+        const pk = d.fields.filefrom
+        const sheetname = d.fields.sheetname || '_csv_'
+        const columns = d.fields.headers
+        if (this.selectedData[pk] === undefined) {
+          this.selectedData[pk] = {}
+          //   字段对应的表的pk, filefrom
+          this.selectedData[pk]['value'] = d.fields.filepath
+          this.selectedData[pk]['label'] = d.fields.filename
+          this.selectedData[pk]['children'] = []
+        }
+        if (this.selectedData[pk]) { var obj = {} }
+        //   字段所在的表的pk
         //   obj['value'] = d.pk
-          obj['value'] = sheetname
-          obj['label'] = sheetname
-          obj['children'] = columns.map((v)=>{
-              var c = {}
-              c['value'] = v
-              c['label'] = v
-              return c
-          })
-          this.selectedData[pk]['children'].push(obj)
+        obj['value'] = sheetname
+        obj['label'] = sheetname
+        obj['children'] = columns.map((v) => {
+          var c = {}
+          c['value'] = v
+          c['label'] = v
+          return c
+        })
+        this.selectedData[pk]['children'].push(obj)
       }
-    },
+    }
 
-  },
-};
+  }
+}
 </script>
 <style scoped>
 .el-tag + .el-tag {
