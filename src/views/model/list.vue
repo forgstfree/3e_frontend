@@ -9,7 +9,7 @@
       highlight-current-row
     >
       <!-- <el-table-column v-model="multipleSelection" type="selection" width="55" /> -->
-      <el-table-column align="center" label="序号" width="90">
+      <el-table-column align="center" label="序号" width="50">
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
         </template>
@@ -19,7 +19,7 @@
           {{ scope.row.fields.name }}
         </template>
       </el-table-column>
-      <el-table-column label="公式" min-width="2" align="center">
+      <el-table-column label="公式" min-width="3" align="center">
         <template slot-scope="scope">
           <vue-mathjax :formula="scope.row.fields.expression" />
           <!-- <el-tag>{{ scope.row.fields.expression}}</el-tag> -->
@@ -30,12 +30,12 @@
           <span>{{ scope.row.fields.desc }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="备注" width="250">
+      <el-table-column align="center" label="备注" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.fields.remake }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="250" align="center">
+      <el-table-column label="操作" width="100" align="center">
         <template slot-scope="scope">
           <el-button
             size="mini"
