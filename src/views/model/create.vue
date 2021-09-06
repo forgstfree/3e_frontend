@@ -10,7 +10,7 @@
             v-model="nameFormula"
             type="textarea"
             :autosize="{ minRows: 1, maxRows: 2 }"
-            placeholder="请输入内容"
+            placeholder="请输入公式名称"
           />
         </div>
       </el-col>
@@ -25,7 +25,7 @@
             v-model="formula"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4 }"
-            placeholder="请输入内容，支持Latax语法。以$$开始，以$$结束。"
+            placeholder="请输入内容，支持Latex语法。以$$开始，以$$结束。"
           />
         </div>
       </el-col>
@@ -50,7 +50,7 @@
             v-model="desc"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4 }"
-            placeholder="请输入内容"
+            placeholder="请输入公式描述"
           />
         </div>
       </el-col>
@@ -65,7 +65,7 @@
             v-model="remake"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4 }"
-            placeholder="请输入内容"
+            placeholder="请输入公式备注，以空格作为分隔符，分隔类别。如：类别1 类别2 类别3 ..."
           />
         </div>
       </el-col>
