@@ -85,6 +85,7 @@ export const constantRoutes = [
       }
     ]
   },
+
   {
     path: '/old',
     component: Layout,
@@ -132,13 +133,6 @@ export const constantRoutes = [
         name: 'Lxwm',
         meta: { title: '联系我们', icon: 'listview', affix: true }
       },
-      {
-        path: 'test',
-        hidden: true,
-        component: () => import('@/views/old/test'),
-        name: 'Test',
-        meta: { title: '测试', icon: 'listview', affix: true }
-      }
     ]
   },
   {
@@ -185,13 +179,6 @@ export const constantRoutes = [
         name: 'Model',
         meta: { title: '数据分析', icon: 'fenxi', affix: true }
       },
-      {
-        path: 'gafhjwaf',
-        hidden: true,
-        component: () => import('@/views/model/test'),
-        name: 'Gafhjwaf',
-        meta: { title: '测试', icon: 'warehouse', affix: true }
-      }
     ]
   }
   // {
