@@ -25,7 +25,7 @@
             v-model="formula"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4 }"
-            placeholder="请输入内容，支持Latex语法。以$$开始，以$$结束。"
+            placeholder="请输入公式内容，支持Latex语法。以$$开始，以$$结束。如：$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$"
           />
         </div>
       </el-col>
@@ -231,7 +231,7 @@ export default {
   data() {
     return {
       nameFormula: '',
-      formula: '$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$',
+      formula: '',
       desc: '',
       remake: '',
       dynamicTags: [],
